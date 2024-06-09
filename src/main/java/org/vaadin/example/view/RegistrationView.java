@@ -1,16 +1,20 @@
 package org.vaadin.example.view;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.html.NativeLabel;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import jakarta.inject.Inject;
+import org.vaadin.example.MainLayout;
 import org.vaadin.example.entity.User;
 import org.vaadin.example.service.UserService;
 
-@Route("register")
+@Route(value="register", layout = MainLayout.class)
 public class RegistrationView extends VerticalLayout {
 
     @Inject
@@ -33,6 +37,18 @@ public class RegistrationView extends VerticalLayout {
             getUI().ifPresent(ui -> ui.navigate("login"));
         });
 
-        add(nameField, emailField, passwordField, registerButton);
+        // For redirect to login view
+        HorizontalLayout layoutForLogin = new HorizontalLayout();
+
+        NativeLabel messageLabel = new NativeLabel("Already have any account 1? ");
+
+        Anchor loginLink = new Anchor("login","Login Now");
+        loginLink.getStyle().set("color", "blue");
+        loginLink.getElement().setAttribute("text-decoration", "underline");
+
+        layoutForLogin.add(messageLabel, loginLink);
+
+
+        add(nameField, emailField, passwordField, registerButton, layoutForLogin);
     }
 }

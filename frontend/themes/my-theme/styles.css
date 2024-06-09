@@ -10,7 +10,9 @@
 /* Example: CSS class name to center align the content . */
 .centered-content {
   margin: 0 auto;
-  max-width: 250px;
+}
+.w-100 {
+  width: 100%;
 }
 
 /* Example: the style is applied only to the textfields which have the `bordered` class name. */

@@ -1,5 +1,6 @@
 package org.vaadin.example.service;
 
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -8,6 +9,7 @@ import org.vaadin.example.entity.User;
 import java.io.Serializable;
 import java.util.Optional;
 
+@SessionScoped
 public class SecurityService implements Serializable {
 
     @Inject

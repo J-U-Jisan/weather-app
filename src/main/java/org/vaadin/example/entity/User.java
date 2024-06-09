@@ -1,6 +1,7 @@
 package org.vaadin.example.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "users")
@@ -15,6 +16,7 @@ public class User {
 
     @Column(name = "email")
     private String email;
+
 
     @Column(name = "password")
     private String password;

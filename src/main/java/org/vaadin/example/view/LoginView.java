@@ -1,19 +1,22 @@
 package org.vaadin.example.view;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.NativeLabel;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import jakarta.inject.Inject;
-import org.vaadin.example.service.UserService;
+import org.vaadin.example.MainLayout;
+import org.vaadin.example.service.SecurityService;
 
-@Route("login")
+@Route(value="login", layout = MainLayout.class)
 public class LoginView extends VerticalLayout {
 
     @Inject
-    private UserService userService;
+    private SecurityService securityService;
 
     public LoginView() {
         TextField emailField = new TextField("Email");
@@ -24,14 +27,25 @@ public class LoginView extends VerticalLayout {
             String email = emailField.getValue();
             String password = passwordField.getValue();
 
-            userService.login(email, password).ifPresentOrElse(user -> {
+            if (securityService.login(email, password)) {
                 // Navigate to home
                 getUI().ifPresent(ui -> ui.navigate("home"));
-            }, () -> {
+            } else {
                 add(new NativeLabel("Invalid email or password"));
-            });
+            }
         });
 
-        add(emailField, passwordField, loginButton);
+        // For redirect to register view
+        HorizontalLayout layoutForRegister = new HorizontalLayout();
+
+        NativeLabel messageLabel = new NativeLabel("Don't have any account? ");
+
+        Anchor registerLink = new Anchor("register","Register Now");
+        registerLink.getStyle().set("color", "blue");
+        registerLink.getElement().setAttribute("text-decoration", "underline");
+
+        layoutForRegister.add(messageLabel, registerLink);
+
+        add(emailField, passwordField, loginButton, layoutForRegister);
     }
 }

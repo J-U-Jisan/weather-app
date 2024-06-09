@@ -95,6 +95,12 @@
         </dependency>
 
         <dependency>
+            <groupId>at.favre.lib</groupId>
+            <artifactId>bcrypt</artifactId>
+            <version>0.10.2</version>
+        </dependency>
+
+        <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
             <version>5.2.1</version>
@@ -115,7 +121,19 @@
                 <version>9.0.0</version>
                 <configuration>
                     <context>ROOT</context>
-                    <libs>com.mysql:mysql-connector-j:8.4.0</libs>
+                    <libs>
+                        <lib>com.mysql:mysql-connector-j:8.4.0</lib>
+                    </libs>
+                    <synchronization>
+                        <extensions>
+                            <extension>.class</extension>
+                        </extensions>
+                    </synchronization>
+                    <reloadOnUpdate>true</reloadOnUpdate>
+                    <systemVariables>
+                        <openejb.system.apps>true</openejb.system.apps>
+                        <tomee.serialization.class.blacklist>-</tomee.serialization.class.blacklist>
+                    </systemVariables>
                 </configuration>
             </plugin>
 
