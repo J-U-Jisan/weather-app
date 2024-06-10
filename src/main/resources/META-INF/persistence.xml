@@ -9,6 +9,8 @@
     <persistence-unit name="default" transaction-type="JTA">
         <jta-data-source>mysqlResource</jta-data-source>
         <class>org.vaadin.example.entity.User</class>
+        <class>org.vaadin.example.entity.Location</class>
+        <class>org.vaadin.example.entity.FavoriteLocation</class>
     </persistence-unit>
 
 </persistence>

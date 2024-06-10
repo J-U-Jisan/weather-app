@@ -9,11 +9,11 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import jakarta.inject.Inject;
-import org.vaadin.example.MainLayout;
+import org.vaadin.example.GuestLayout;
 import org.vaadin.example.service.SecurityService;
 
-@Route(value="login", layout = MainLayout.class)
-public class LoginView extends VerticalLayout {
+@Route(value="login", layout = GuestLayout.class)
+public class LoginView extends VerticalLayout implements GuestView{
 
     @Inject
     private SecurityService securityService;
@@ -29,7 +29,7 @@ public class LoginView extends VerticalLayout {
 
             if (securityService.login(email, password)) {
                 // Navigate to home
-                getUI().ifPresent(ui -> ui.navigate("home"));
+                getUI().ifPresent(ui -> ui.navigate(""));
             } else {
                 add(new NativeLabel("Invalid email or password"));
             }

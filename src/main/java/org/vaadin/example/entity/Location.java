@@ -1,12 +1,18 @@
 package org.vaadin.example.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="locations")
 public class Location {
+    @Id
     private Integer id;
     private String name;
     private Double latitude;
     private Double longitude;
     private String country;
-    private String addedAsFavorite;
 
     public Location() {
     }
@@ -59,11 +65,4 @@ public class Location {
         this.country = country;
     }
 
-    public String getAddedAsFavorite() {
-        return addedAsFavorite;
-    }
-
-    public void setAddedAsFavorite(String addedAsFavorite) {
-        this.addedAsFavorite = addedAsFavorite;
-    }
 }

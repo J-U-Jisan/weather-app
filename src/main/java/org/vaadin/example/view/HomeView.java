@@ -1,30 +1,30 @@
 package org.vaadin.example.view;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.NativeLabel;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
-import org.vaadin.example.MainLayout;
+import org.vaadin.example.SecuredLayout;
 import org.vaadin.example.entity.Location;
+import org.vaadin.example.service.FavoriteLocationService;
 import org.vaadin.example.service.LocationService;
 import org.vaadin.example.service.SecurityService;
 import org.vaadin.tatu.BeanTable;
 
 import java.util.List;
 
-@Route(value = "home", layout = MainLayout.class)
+@Route(value = "", layout = SecuredLayout.class)
 public class HomeView extends VerticalLayout implements SecuredView{
 
     @Inject
-    SecurityService securityService;
-    @Inject
     LocationService locationService;
+
+    @Inject
+    FavoriteLocationService favoriteLocationService;
 
     private BeanTable<Location> beanTable;
     private TextField locationField = new TextField("Location");
@@ -34,28 +34,11 @@ public class HomeView extends VerticalLayout implements SecuredView{
 
     @PostConstruct
     public void HomeView() {
-
-        HorizontalLayout topLayout = new HorizontalLayout();
-        topLayout.setWidthFull();
-
-        Button logoutButton = new Button("Logout");
-
-        logoutButton.addClickListener(event -> {
-            securityService.logout();
-            // Navigate to login page
-            getUI().ifPresent(ui -> ui.navigate("login"));
-        });
-
-        H1 title = new H1("Home");
-        topLayout.add( title, logoutButton);
-        topLayout.expand(title);
-        topLayout.setFlexGrow(1, title);
-        topLayout.setJustifyContentMode(JustifyContentMode.BETWEEN);
+        H3 pageTitle = new H3("Home");
 
         HorizontalLayout searchFilterLayout = new HorizontalLayout();
         searchButton.addClickListener(e -> searchLocations());
-        searchButton.getStyle().setMarginTop("auto"
-        );
+        searchButton.getStyle().setMarginTop("auto");
 
 
         searchFilterLayout.add(locationField, searchButton);
@@ -65,11 +48,31 @@ public class HomeView extends VerticalLayout implements SecuredView{
         beanTable.addColumn("Country", Location::getCountry);
         beanTable.addColumn("Latitude", Location::getLatitude);
         beanTable.addColumn("Longitude", Location::getLongitude);
+
+        beanTable.addComponentColumn("Status", location -> {
+           Button favoriteButton = new Button("Add as favorite");
+           favoriteButton.addClickListener(event -> {
+              favoriteLocationService.addFavoriteLocation(location);
+              favoriteButton.setText("Added as favorite");
+              favoriteButton.setEnabled(false);
+           });
+           return favoriteButton;
+        }).setHeader("Status");
+
+        beanTable.addComponentColumn("Action", location -> {
+            Button viewButton = new Button("View Details");
+            viewButton.addClickListener(event -> {
+                getUI().ifPresent(ui -> ui.navigate("location/" + location.getId() + "/forecast"));
+            });
+            return viewButton;
+        }).setHeader("Action");
+
         beanTable.setWidthFull();
         searchLocations("Dhaka");
 
-        add(topLayout, searchFilterLayout, beanTable);
+        add(pageTitle, searchFilterLayout, beanTable);
     }
+
 
     private void searchLocations() {
         String locationName = locationField.getValue();

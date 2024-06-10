@@ -10,13 +10,16 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import jakarta.inject.Inject;
-import org.vaadin.example.MainLayout;
+import org.vaadin.example.GuestLayout;
 import org.vaadin.example.entity.User;
+import org.vaadin.example.service.SecurityService;
 import org.vaadin.example.service.UserService;
 
-@Route(value="register", layout = MainLayout.class)
-public class RegistrationView extends VerticalLayout {
+@Route(value="register", layout = GuestLayout.class)
+public class RegistrationView extends VerticalLayout implements GuestView{
 
+    @Inject
+    private SecurityService securityService;
     @Inject
     private UserService userService;
 
@@ -33,14 +36,15 @@ public class RegistrationView extends VerticalLayout {
             user.setPassword(passwordField.getValue());
             userService.register(user);
 
-            // Navigate to login
-            getUI().ifPresent(ui -> ui.navigate("login"));
+            securityService.login(emailField.getValue(), passwordField.getValue());
+            // Navigate to home
+            getUI().ifPresent(ui -> ui.navigate(""));
         });
 
         // For redirect to login view
         HorizontalLayout layoutForLogin = new HorizontalLayout();
 
-        NativeLabel messageLabel = new NativeLabel("Already have any account 1? ");
+        NativeLabel messageLabel = new NativeLabel("Already have any account? ");
 
         Anchor loginLink = new Anchor("login","Login Now");
         loginLink.getStyle().set("color", "blue");
