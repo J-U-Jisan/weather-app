@@ -43,3 +43,4 @@
    ```
    mvn package tomee:run
    ```
+   Browse application using `http://localhost:8080/`
