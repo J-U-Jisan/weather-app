@@ -12,7 +12,6 @@ import org.vaadin.example.SecuredLayout;
 import org.vaadin.example.entity.Location;
 import org.vaadin.example.service.FavoriteLocationService;
 import org.vaadin.example.service.LocationService;
-import org.vaadin.example.service.SecurityService;
 import org.vaadin.tatu.BeanTable;
 
 import java.util.List;

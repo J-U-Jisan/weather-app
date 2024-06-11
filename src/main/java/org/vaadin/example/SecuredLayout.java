@@ -38,9 +38,13 @@ public class SecuredLayout extends VerticalLayout implements RouterLayout, Befor
         topLayout.setWidthFull();
         topLayout.getStyle().set("border-bottom", "1px solid lightgrey");
 
+        Button homeButton = new Button("Home");
         Button favoriteButton = new Button("Favorites");
         Button logoutButton = new Button("Logout");
 
+        homeButton.addClickListener(event -> {
+            getUI().ifPresent(ui -> ui.navigate(""));
+        });
         favoriteButton.addClickListener(event -> {
             getUI().ifPresent(ui -> ui.navigate("favorites"));
         });
@@ -51,7 +55,7 @@ public class SecuredLayout extends VerticalLayout implements RouterLayout, Befor
         });
 
         H2 title = new H2("Weather App");
-        topLayout.add( title, favoriteButton, logoutButton);
+        topLayout.add( title, homeButton, favoriteButton, logoutButton);
         topLayout.expand(title);
         topLayout.setFlexGrow(1, title);
         topLayout.setJustifyContentMode(JustifyContentMode.BETWEEN);

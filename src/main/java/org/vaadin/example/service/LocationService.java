@@ -49,4 +49,34 @@ public class LocationService {
 
         return locations;
     }
+
+    public Location getLocationById (Integer locationId) {
+
+        Client client = ClientBuilder.newClient();
+        WebTarget target = client.target(GEOCODING_BASE_URL + "get?id=" + locationId);
+        Response response = target.request(MediaType.APPLICATION_JSON).get();
+
+        Location location;
+
+        if (response.getStatus() == 200) {
+            String jsonResponse = response.readEntity(String.class);
+            JsonReader jsonReader = jakarta.json.Json.createReader(new StringReader(jsonResponse));
+            JsonObject jsonObject = jsonReader.readObject();
+
+            Integer id = jsonObject.getInt("id");
+            String name = jsonObject.getString("name");
+            Double latitude = jsonObject.getJsonNumber("latitude").doubleValue();
+            Double longitude = jsonObject.getJsonNumber("longitude").doubleValue();
+            String country = jsonObject.getString("country");
+
+            location =  new Location(id, name, latitude, longitude, country);
+
+        } else {
+            location = null;
+        }
+        response.close();
+        client.close();
+
+        return location;
+    }
 }

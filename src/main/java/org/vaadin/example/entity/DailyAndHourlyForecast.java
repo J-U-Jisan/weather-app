@@ -88,4 +88,15 @@ public class DailyAndHourlyForecast {
     public void setWind_speed_10m_max(double wind_speed_10m_max) {
         this.wind_speed_10m_max = wind_speed_10m_max;
     }
+
+    @Override
+    public String toString() {
+        return "DailyAndHourlyForecast{" +
+                "time='" + time + '\'' +
+                ", temperature_2m_max=" + temperature_2m_max +
+                ", temperature_2m_min=" + temperature_2m_min +
+                ", rain_sum=" + rain_sum +
+                ", wind_speed_10m_max=" + wind_speed_10m_max +
+                '}';
+    }
 }

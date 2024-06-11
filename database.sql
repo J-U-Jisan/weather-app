@@ -1,3 +1,8 @@
+DROP DATABASE IF EXISTS weather_app_db;
+CREATE DATABASE weather_app_db;
+USE weather_app_db;
+
+DROP TABLE IF EXISTS users;
 CREATE TABLE users(
 	id INT NOT NULL AUTO_INCREMENT,
 	name VARCHAR(255),
@@ -6,6 +11,7 @@ CREATE TABLE users(
 	PRIMARY KEY (id)
 );
 
+DROP TABLE IF EXISTS locations;
 CREATE TABLE locations (
     id INT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -14,6 +20,7 @@ CREATE TABLE locations (
     longitude DOUBLE NOT NULL
 );
 
+DROP TABLE IF EXISTS favorite_locations;
 CREATE TABLE favorite_locations (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
