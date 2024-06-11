@@ -22,7 +22,7 @@
 
 ## Used Technology
 
-- **Vaadin 24.0:**
+- **Vaadin 24.3.13:**
    - Based on Jakarta EE 10.0, requires Java 17.
 
 - **MySQL Database**
