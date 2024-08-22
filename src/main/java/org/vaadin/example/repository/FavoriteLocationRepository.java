@@ -39,7 +39,7 @@ public class FavoriteLocationRepository {
 
     public List<FavoriteLocation> findFavoriteLocationsByUser(User user) {
 
-        return entityManager.createQuery("SELECT fl.location, fl.description FROM FavoriteLocation fl WHERE fl.user = :user", FavoriteLocation.class)
+        return entityManager.createQuery("SELECT fl FROM FavoriteLocation fl WHERE fl.user = :user", FavoriteLocation.class)
                 .setParameter("user", user)
                 .getResultList();
     }
