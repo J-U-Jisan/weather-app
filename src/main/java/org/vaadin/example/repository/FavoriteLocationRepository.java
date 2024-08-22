@@ -17,13 +17,14 @@ public class FavoriteLocationRepository {
     private EntityManager entityManager;
 
     @Transactional
-    public void addFavoriteLocation(User user, Location location) {
+    public void addFavoriteLocation(User user, Location location, String description) {
         // Check if the favorite location already exists for the user
         if (!isFavoriteLocationExists(user, location)) {
             // Favorite location does not exist, so add it
             FavoriteLocation favoriteLocation = new FavoriteLocation();
             favoriteLocation.setUser(user);
             favoriteLocation.setLocation(location);
+            favoriteLocation.setDescription(description);
             entityManager.persist(favoriteLocation);
         }
     }
@@ -36,9 +37,9 @@ public class FavoriteLocationRepository {
                 .getSingleResult() > 0;
     }
 
-    public List<Location> findFavoriteLocationsByUser(User user) {
+    public List<FavoriteLocation> findFavoriteLocationsByUser(User user) {
 
-        return entityManager.createQuery("SELECT fl.location FROM FavoriteLocation fl WHERE fl.user = :user", Location.class)
+        return entityManager.createQuery("SELECT fl.location, fl.description FROM FavoriteLocation fl WHERE fl.user = :user", FavoriteLocation.class)
                 .setParameter("user", user)
                 .getResultList();
     }

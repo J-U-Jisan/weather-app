@@ -17,6 +17,9 @@ public class FavoriteLocation {
     @JoinColumn(name="location_id", nullable = false)
     private Location location;
 
+    @Column(name="description")
+    private String description;
+
     public Integer getId() {
         return id;
     }
@@ -37,7 +40,16 @@ public class FavoriteLocation {
         return location;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public void setLocation(Location location) {
         this.location = location;
     }
+
 }

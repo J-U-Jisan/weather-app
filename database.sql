@@ -25,6 +25,7 @@ CREATE TABLE favorite_locations (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     location_id INT NOT NULL,
+    description VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (location_id) REFERENCES locations(id) ON DELETE CASCADE,
     UNIQUE (user_id, location_id)

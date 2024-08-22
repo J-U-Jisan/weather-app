@@ -2,6 +2,7 @@ package org.vaadin.example.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.vaadin.example.entity.FavoriteLocation;
 import org.vaadin.example.entity.Location;
 import org.vaadin.example.entity.User;
 import org.vaadin.example.repository.FavoriteLocationRepository;
@@ -20,7 +21,7 @@ public class FavoriteLocationService {
     @Inject
     private SecurityService securityService;
 
-    public void addFavoriteLocation(Location location) {
+    public void addFavoriteLocation(Location location, String description) {
         // Fetch the authenticated user
         User authenticatedUser = securityService.getAuthenticatedUser();
 
@@ -32,10 +33,10 @@ public class FavoriteLocationService {
             existingLocation = locationRepository.save(location);
         }
 
-        favoriteLocationRepository.addFavoriteLocation(authenticatedUser, existingLocation);
+        favoriteLocationRepository.addFavoriteLocation(authenticatedUser, existingLocation, description);
     }
 
-    public List<Location> getFavoriteLocations() {
+    public List<FavoriteLocation> getFavoriteLocations() {
         User authenticatedUser = securityService.getAuthenticatedUser();
         return favoriteLocationRepository.findFavoriteLocationsByUser(authenticatedUser);
     }

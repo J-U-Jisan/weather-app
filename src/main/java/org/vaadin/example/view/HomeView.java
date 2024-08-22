@@ -49,13 +49,20 @@ public class HomeView extends VerticalLayout implements SecuredView{
         beanTable.addColumn("Longitude", Location::getLongitude);
 
         beanTable.addComponentColumn("Status", location -> {
+           HorizontalLayout addFavoriteLayout = new HorizontalLayout();
+
+           TextField descriptionField = new TextField();
+           descriptionField.setPlaceholder("Description");
+
            Button favoriteButton = new Button("Add as favorite");
            favoriteButton.addClickListener(event -> {
-              favoriteLocationService.addFavoriteLocation(location);
+              favoriteLocationService.addFavoriteLocation(location, descriptionField.getValue());
               favoriteButton.setText("Added as favorite");
               favoriteButton.setEnabled(false);
            });
-           return favoriteButton;
+
+           addFavoriteLayout.add(descriptionField, favoriteButton);
+           return addFavoriteLayout;
         }).setHeader("Status");
 
         beanTable.addComponentColumn("Action", location -> {

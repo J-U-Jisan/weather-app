@@ -7,6 +7,7 @@ import com.vaadin.flow.router.Route;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import org.vaadin.example.SecuredLayout;
+import org.vaadin.example.entity.FavoriteLocation;
 import org.vaadin.example.entity.Location;
 import org.vaadin.example.service.FavoriteLocationService;
 import org.vaadin.tatu.BeanTable;
@@ -23,12 +24,13 @@ public class FavoriteView extends VerticalLayout implements SecuredView  {
     public void FavoriteView() {
         H3 pageTitle = new H3("Favorites");
 
-        BeanTable<Location> beanTable = new BeanTable<>(Location.class, false, 10);
+        BeanTable<FavoriteLocation> beanTable = new BeanTable<>(FavoriteLocation.class, false, 10);
 
-        beanTable.addColumn("Location", Location::getName);
-        beanTable.addColumn("Country", Location::getCountry);
-        beanTable.addColumn("Latitude", Location::getLatitude);
-        beanTable.addColumn("Longitude", Location::getLongitude);
+        beanTable.addColumn("Location", favoriteLocation -> favoriteLocation.getLocation().getName());
+        beanTable.addColumn("Country", favoriteLocation -> favoriteLocation.getLocation().getCountry());
+        beanTable.addColumn("Latitude", favoriteLocation -> favoriteLocation.getLocation().getLatitude());
+        beanTable.addColumn("Longitude", favoriteLocation -> favoriteLocation.getLocation().getLongitude());
+        beanTable.addColumn("Description", FavoriteLocation::getDescription);
 
         beanTable.addComponentColumn("Action", location -> {
             Button viewButton = new Button("View Details");
@@ -38,9 +40,9 @@ public class FavoriteView extends VerticalLayout implements SecuredView  {
             return viewButton;
         }).setHeader("Action");
 
-        List<Location> locations = favoriteLocationService.getFavoriteLocations();
+        List<FavoriteLocation> favoriteLocations = favoriteLocationService.getFavoriteLocations();
 
-        beanTable.setItems(locations);
+        beanTable.setItems(favoriteLocations);
         beanTable.setWidthFull();
 
         add(pageTitle, beanTable);
